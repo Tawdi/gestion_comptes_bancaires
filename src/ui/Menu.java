@@ -54,7 +54,24 @@ public class Menu {
     }
 
     private void retirer() {
+        System.out.println("=== Retrait d'un compte ===");
+
+        String code;
+        Compte compte = null;
+        do {
+            code = Helper.lireString("Entrez le code du compte : ");
+            if (!Helper.isCodeCompteValid(code)) {
+                System.out.println("❌ Code invalide. Format attendu : CPT-12345");
+                continue;
+            }
+            compte = banque.chercherCompte(code);
+        } while (compte == null);
+
+        double montant = Helper.lireDouble("Entrez le montant à retirer : ");
+
+        compte.retirer(montant);
     }
+
 
     private void consulterOperations() {
     }
