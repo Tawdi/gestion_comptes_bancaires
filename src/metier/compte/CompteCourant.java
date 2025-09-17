@@ -1,5 +1,7 @@
 package metier.compte;
 
+import metier.operation.Retrait;
+
 public class CompteCourant extends Compte {
 
     private double decouvert;
@@ -10,7 +12,7 @@ public class CompteCourant extends Compte {
     }
 
     @Override
-    public void retirer(double montant) {
+    public void retirer(double montant , String destination ) {
         try {
             if (montant <= 0) {
                 throw new IllegalArgumentException("Le montant doit être positif !");
@@ -22,6 +24,8 @@ public class CompteCourant extends Compte {
 
             this.solde -= montant;
             System.out.println("✅ Retrait de " + montant + " effectué. Nouveau solde : " + solde);
+
+            listOperation.add(new Retrait(montant,destination));
 
         } catch (IllegalArgumentException e) {
             System.out.println("❌ Erreur: " + e.getMessage());
