@@ -66,10 +66,10 @@ public class Menu {
             }
             compte = banque.chercherCompte(code);
         } while (compte == null);
-
         double montant = Helper.lireDouble("Entrez le montant à retirer : ");
+        String destination = Helper.lireString("Entrez le destination de retrait : ");
 
-        compte.retirer(montant);
+        compte.retirer(montant,destination);
     }
 
 
@@ -77,7 +77,20 @@ public class Menu {
     }
 
     private void consulterSolde() {
+        System.out.println("=== consulter le solde ===");
 
+        String code;
+        Compte compte = null;
+        do {
+            code = Helper.lireString("Entrez le code du compte : ");
+            if (!Helper.isCodeCompteValid(code)) {
+                System.out.println("❌ Code invalide. Format attendu : CPT-12345");
+                continue;
+            }
+            compte = banque.chercherCompte(code);
+        } while (compte == null);
+
+        System.out.println("solde de compte "+code+" : "+ compte.getSolde());
     }
 
     private void virement() {
@@ -85,7 +98,23 @@ public class Menu {
     }
 
     private void verser() {
+        System.out.println("=== Verser d'un compte ===");
 
+        String code;
+        Compte compte = null;
+        do {
+            code = Helper.lireString("Entrez le code du compte : ");
+            if (!Helper.isCodeCompteValid(code)) {
+                System.out.println("❌ Code invalide. Format attendu : CPT-12345");
+                continue;
+            }
+            compte = banque.chercherCompte(code);
+        } while (compte == null);
+
+        double montant = Helper.lireDouble("Entrez le montant à verser : ");
+        String source = Helper.lireString("Entrez le source de Versement : ");
+
+        compte.verser(montant,source);
     }
 
     private void creerCompte() {
