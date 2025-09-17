@@ -39,4 +39,15 @@ public abstract   class Compte {
                 "=====================\n";
     }
 
+    public double getSolde() {
+        return solde;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public UUID getId() {
+        return id;
+    }
 }

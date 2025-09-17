@@ -16,7 +16,7 @@ public class CompteEpargne extends Compte {
                 throw new IllegalArgumentException("Le montant doit être positif !");
             }
 
-            if (this.solde < montant) {
+            if (this.solde <= montant) {
                 throw new Exception("Solde insuffisant pour effectuer le retrait !");
             }
 

@@ -1,3 +1,4 @@
+import metier.banque.Banque;
 import metier.compte.Compte;
 import metier.compte.CompteCourant;
 import ui.Menu;
@@ -5,13 +6,9 @@ import ui.Menu;
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("!!");
-
-        Menu menu = new Menu();
+        Banque banque = new Banque("CIH");
+        Menu menu = new Menu(banque);
         menu.show();
-        Compte compte = new CompteCourant("ggg",3333,444);
-        compte.verser(444,"salaire");
-        System.out.println(compte);
 
     }
 }
