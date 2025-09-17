@@ -1,6 +1,10 @@
 package ui;
 
 import metier.banque.Banque;
+import metier.compte.Compte;
+import metier.compte.CompteCourant;
+import metier.compte.CompteEpargne;
+import utility.Helper;
 
 import java.util.Scanner;
 
@@ -68,5 +72,36 @@ public class Menu {
     }
 
     private void creerCompte() {
+        System.out.println("=== Création d'un compte ===");
+
+
+        int typeCompte = Helper.lireInt(
+                "Choisissez le type de compte :\n 1 - Courant\n 2 - Épargne\n : ", 1, 2);
+
+        String code;
+        do {
+            code = Helper.lireString("Entrez le code du compte (CPT-XXXXX) : ");
+            if (!Helper.isCodeCompteValid(code)) {
+                System.out.println("❌ Code invalide. Format attendu : CPT-12345");
+            } else if (banque.isCompteInBanque(code)) {
+                System.out.println("❌ Ce code existe déjà !");
+                code = null;
+            }
+        } while (code == null || !Helper.isCodeCompteValid(code));
+
+
+        double solde = Helper.lireDouble("Entrez le solde initial : ");
+
+        // courant ou épargne
+        if (typeCompte == 1) {
+            double decouvert = Helper.lireDouble("Entrez le découvert autorisé : ");
+            banque.ajouterCompte(new CompteCourant(code, solde, decouvert));
+            System.out.println("✅ Compte courant créé avec succès !");
+        } else {
+            double taux = Helper.lireDouble("Entrez le taux d'intérêt (%) : ");
+            banque.ajouterCompte(new CompteEpargne(code, solde, taux));
+            System.out.println("✅ Compte épargne créé avec succès !");
+        }
     }
+
 }
