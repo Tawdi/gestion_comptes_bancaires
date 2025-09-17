@@ -74,6 +74,21 @@ public class Menu {
 
 
     private void consulterOperations() {
+        System.out.println("=== consulter les operations ===");
+
+        String code;
+        Compte compte = null;
+        do {
+            code = Helper.lireString("Entrez le code du compte : ");
+            if (!Helper.isCodeCompteValid(code)) {
+                System.out.println("❌ Code invalide. Format attendu : CPT-12345");
+                continue;
+            }
+            compte = banque.chercherCompte(code);
+        } while (compte == null);
+        System.out.println("Operations Liste :");
+        compte.afficheOperations();
+
     }
 
     private void consulterSolde() {

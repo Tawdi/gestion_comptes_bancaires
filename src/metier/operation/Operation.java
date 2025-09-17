@@ -16,9 +16,9 @@ public abstract class Operation {
 
     public String toString() {
         return "Operation{" +
-                "numero=" + numero +
-                ", date=" + date +
-                ", montant=" + montant +
+                "numero= " + numero +
+                ", date= " + date +
+                ", montant= " + montant +
                 '}';
     }
 }

@@ -29,6 +29,16 @@ public abstract   class Compte {
         this.listOperation.add(new Versement(montant , source));
     }
 
+    public final void afficheOperations(){
+
+        if(!listOperation.isEmpty()) {
+            listOperation.forEach(System.out::println);
+        } else {
+            System.out.println("\n\n   aucun operation trouvé \n\n");
+        }
+
+    }
+
 
     @Override
     public  String toString(){

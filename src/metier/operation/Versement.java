@@ -8,4 +8,14 @@ public class Versement extends  Operation{
         super(montant);
         this.source = source;
     }
+
+    @Override
+    public String toString() {
+        return "Versement{" +
+                "numero= " + numero +
+                ", date= " + date +
+                ", montant= " + montant +
+                ", source= " + source +
+                '}';
+    }
 }

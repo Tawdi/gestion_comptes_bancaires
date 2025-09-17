@@ -8,4 +8,13 @@ public class Retrait extends Operation{
         super(montant);
         this.destination = destination;
     }
+    @Override
+    public String toString() {
+        return "Retrait{" +
+                "numero= " + numero +
+                ", date= " + date +
+                ", montant= " + montant +
+                ", destination= " + destination +
+                '}';
+    }
 }
