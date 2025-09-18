@@ -12,7 +12,7 @@ public class CompteCourant extends Compte {
     }
 
     @Override
-    public void retirer(double montant , String destination ) {
+    public boolean retirer(double montant , String destination ) {
         try {
             if (montant <= 0) {
                 throw new IllegalArgumentException("Le montant doit être positif !");
@@ -27,11 +27,15 @@ public class CompteCourant extends Compte {
 
             listOperation.add(new Retrait(montant,destination));
 
+
         } catch (IllegalArgumentException e) {
             System.out.println("❌ Erreur: " + e.getMessage());
+            return false;
         } catch (Exception e) {
             System.out.println("❌ Erreur: " + e.getMessage());
+            return false;
         }
+        return true;
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public abstract   class Compte {
+    private static int compteur = 4;
     protected UUID id;
     protected String code;
     protected double solde;
@@ -14,12 +15,12 @@ public abstract   class Compte {
 
     public Compte(String code , double solde){
         this.id = UUID.randomUUID();
-        this.code = code;
-        this.solde = solde;
+        setCode(code);
+        setSolde(solde);
         this.listOperation = new ArrayList<>();
     }
 
-    public abstract void retirer(double montant,String destination);
+    public abstract boolean retirer(double montant,String destination);
 
     public abstract void afficheDetails();
 
@@ -60,5 +61,24 @@ public abstract   class Compte {
 
     public UUID getId() {
         return id;
+    }
+
+    public void setSolde(double solde) {
+        this.solde = solde;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setCode(String code) {
+
+        this.code = (code == null || code.isEmpty()) ? generateCode() : code;
+
+    }
+
+    private String generateCode(){
+        compteur++;
+        return String.format("CPT-%05d", compteur);
     }
 }
