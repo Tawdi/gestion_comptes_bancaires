@@ -7,12 +7,15 @@ import metier.compte.CompteEpargne;
 import utility.Helper;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Menu {
 
+    private UUID id;
     private Banque banque;
 
     public Menu(Banque banque ){
+        this.id = UUID.randomUUID() ;
         this.banque = banque;
     }
 
@@ -22,14 +25,7 @@ public class Menu {
 
         while (active){
 
-            System.out.println("==== Menu ====");
-            System.out.println("1. Créer un compte");
-            System.out.println("2. Verser argent");
-            System.out.println("3. Retirer argent");
-            System.out.println("4. Virement");
-            System.out.println("5. Consulter solde");
-            System.out.println("6. Historique opérations");
-            System.out.println("0. Quitter");
+            afficheMenu();
             try {
 
                 int choice = sc.nextInt();
@@ -53,19 +49,21 @@ public class Menu {
 
     }
 
+    private void afficheMenu() {
+        System.out.println("==== Menu ====");
+        System.out.println("1. Créer un compte");
+        System.out.println("2. Verser argent");
+        System.out.println("3. Retirer argent");
+        System.out.println("4. Virement");
+        System.out.println("5. Consulter solde");
+        System.out.println("6. Historique opérations");
+        System.out.println("0. Quitter");
+    }
+
     private void retirer() {
         System.out.println("=== Retrait d'un compte ===");
 
-        String code;
-        Compte compte = null;
-        do {
-            code = Helper.lireString("Entrez le code du compte : ");
-            if (!Helper.isCodeCompteValid(code)) {
-                System.out.println("❌ Code invalide. Format attendu : CPT-12345");
-                continue;
-            }
-            compte = banque.chercherCompte(code);
-        } while (compte == null);
+        Compte compte = demanderCompte();
         double montant = Helper.lireDouble("Entrez le montant à retirer : ");
         String destination = Helper.lireString("Entrez le destination de retrait : ");
 
@@ -76,16 +74,7 @@ public class Menu {
     private void consulterOperations() {
         System.out.println("=== consulter les operations ===");
 
-        String code;
-        Compte compte = null;
-        do {
-            code = Helper.lireString("Entrez le code du compte : ");
-            if (!Helper.isCodeCompteValid(code)) {
-                System.out.println("❌ Code invalide. Format attendu : CPT-12345");
-                continue;
-            }
-            compte = banque.chercherCompte(code);
-        } while (compte == null);
+        Compte compte = demanderCompte();
         System.out.println("Operations Liste :");
         compte.afficheOperations();
 
@@ -94,18 +83,9 @@ public class Menu {
     private void consulterSolde() {
         System.out.println("=== consulter le solde ===");
 
-        String code;
-        Compte compte = null;
-        do {
-            code = Helper.lireString("Entrez le code du compte : ");
-            if (!Helper.isCodeCompteValid(code)) {
-                System.out.println("❌ Code invalide. Format attendu : CPT-12345");
-                continue;
-            }
-            compte = banque.chercherCompte(code);
-        } while (compte == null);
+        Compte compte = demanderCompte();
 
-        System.out.println("solde de compte "+code+" : "+ compte.getSolde());
+        System.out.println("solde de compte "+compte.getCode()+" : "+ compte.getSolde());
     }
 
     private void virement() {
@@ -115,23 +95,13 @@ public class Menu {
     private void verser() {
         System.out.println("=== Verser d'un compte ===");
 
-        String code;
-        Compte compte = null;
-        do {
-            code = Helper.lireString("Entrez le code du compte : ");
-            if (!Helper.isCodeCompteValid(code)) {
-                System.out.println("❌ Code invalide. Format attendu : CPT-12345");
-                continue;
-            }
-            compte = banque.chercherCompte(code);
-        } while (compte == null);
+        Compte compte = demanderCompte();
 
         double montant = Helper.lireDouble("Entrez le montant à verser : ");
         String source = Helper.lireString("Entrez le source de Versement : ");
 
         compte.verser(montant,source);
     }
-
     private void creerCompte() {
         System.out.println("=== Création d'un compte ===");
 
@@ -165,4 +135,20 @@ public class Menu {
         }
     }
 
+    private Compte demanderCompte() {
+        Compte compte = null;
+        String code;
+        do {
+            code = Helper.lireString("Entrez le code du compte : ");
+            if (!Helper.isCodeCompteValid(code)) {
+                System.out.println("❌ Code invalide. Format attendu : CPT-12345");
+                continue;
+            }
+            compte = banque.chercherCompte(code);
+            if (compte == null) {
+                System.out.println("❌ Aucun compte trouvé avec ce code !");
+            }
+        } while (compte == null);
+        return compte;
+    }
 }
