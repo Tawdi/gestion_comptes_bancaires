@@ -58,6 +58,13 @@ public class Banque {
         return compte != null;
     }
 
+    public boolean virement(Compte source, Compte destination, double montant) {
+        if (source.retirer(montant, "Virement vers " + destination.getCode())) {
+            destination.verser(montant, "Virement de " + source.getCode());
+            return true;
+        }
+        return false;
+    }
 
     public String getNom() {
         return nom;
@@ -66,4 +73,6 @@ public class Banque {
     public UUID getId() {
         return id;
     }
+
+
 }

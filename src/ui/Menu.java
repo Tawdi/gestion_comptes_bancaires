@@ -89,8 +89,36 @@ public class Menu {
     }
 
     private void virement() {
+        System.out.println("=== Virement ===");
+
+        System.out.println("= Source =");
+        Compte source = demanderCompte();
+
+        System.out.println("= destination =");
+        Compte destination = demanderCompte();
+
+        if (source.equals(destination)) {
+            System.out.println("❌ Impossible de faire un virement vers le même compte !");
+            return;
+        }
+
+        double montant = Helper.lireDouble("Entrez le montant à transférer : ");
+
+//        if( source.retirer(montant, "Virement vers " + destination.getCode()) ){
+//            destination.verser(montant, "Virement de " + source.getCode());
+//            System.out.println("✅ Virement effectué avec succès !");
+//        }else{
+//            System.out.println("❌ Virement refusé  !");
+//        }
+        if( banque.virement(source,destination,montant) ){
+            System.out.println("✅ Virement effectué avec succès !");
+        }else{
+            System.out.println("❌ Virement refusé  !");
+        }
+
 
     }
+
 
     private void verser() {
         System.out.println("=== Verser d'un compte ===");
@@ -109,16 +137,29 @@ public class Menu {
         int typeCompte = Helper.lireInt(
                 "Choisissez le type de compte :\n 1 - Courant\n 2 - Épargne\n : ", 1, 2);
 
-        String code;
+        String code = null;
+
+        int choix;
         do {
-            code = Helper.lireString("Entrez le code du compte (CPT-XXXXX) : ");
-            if (!Helper.isCodeCompteValid(code)) {
-                System.out.println("❌ Code invalide. Format attendu : CPT-12345");
-            } else if (banque.isCompteInBanque(code)) {
-                System.out.println("❌ Ce code existe déjà !");
-                code = null;
+            choix = Helper.lireInt(
+                    "Souhaitez-vous : \n 1 - Entrer un code manuellement\n 2 - Générer un code automatiquement\n : ", 1, 2);
+
+            if (choix == 1) {
+                do {
+                    code = Helper.lireString("Entrez le code du compte (CPT-XXXXX) : ");
+                    if (!Helper.isCodeCompteValid(code)) {
+                        System.out.println("❌ Code invalide. Format attendu : CPT-12345");
+                    } else if (banque.isCompteInBanque(code)) {
+                        System.out.println("❌ Ce code existe déjà !");
+                        code = null;
+                    }
+                } while (code == null || !Helper.isCodeCompteValid(code));
+
+            } else if (choix == 2) {
+                code="";
             }
-        } while (code == null || !Helper.isCodeCompteValid(code));
+
+        } while (code == null);
 
 
         double solde = Helper.lireDouble("Entrez le solde initial : ");
