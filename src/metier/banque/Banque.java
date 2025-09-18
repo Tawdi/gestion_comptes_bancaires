@@ -66,6 +66,18 @@ public class Banque {
         return false;
     }
 
+    public void afficherComptes() {
+        try {
+            if (comptes.isEmpty()) {
+                throw new Exception("Aucun compte trouvé dans la banque !");
+            }
+            System.out.println("=== Liste des comptes de la banque " + nom + " ===");
+            comptes.values().forEach(Compte::afficheDetails);
+        } catch (Exception e) {
+            System.out.println("❌ Erreur: " + e.getMessage());
+        }
+    }
+
     public String getNom() {
         return nom;
     }

@@ -38,6 +38,7 @@ public class Menu {
                     case 4: virement(); break;
                     case 5: consulterSolde(); break;
                     case 6: consulterOperations(); break;
+                    case 7: afficheComptes(); break;
                     case 0: active = false; break;
                     default: System.out.println("Choix invalide !");
                 }
@@ -49,6 +50,11 @@ public class Menu {
 
     }
 
+    private void afficheComptes() {
+        System.out.println("=== Les Comptes ===");
+        banque.afficherComptes();
+    }
+
     private void afficheMenu() {
         System.out.println("==== Menu ====");
         System.out.println("1. Créer un compte");
@@ -57,6 +63,7 @@ public class Menu {
         System.out.println("4. Virement");
         System.out.println("5. Consulter solde");
         System.out.println("6. Historique opérations");
+        System.out.println("7. affiches comptes");
         System.out.println("0. Quitter");
     }
 
