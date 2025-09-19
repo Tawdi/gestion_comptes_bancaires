@@ -52,4 +52,9 @@ public class CompteCourant extends Compte {
             System.out.println("❌ Erreur lors de l'affichage des détails: " + e.getMessage());
         }
     }
+
+    @Override
+    public double calculerInteret() {
+       return 0 ;
+    }
 }

@@ -52,13 +52,11 @@ public class CompteEpargne extends Compte {
         }
     }
 
-    public void calculerInteret() {
-        try {
+    @Override
+    public double calculerInteret() {
             double interet = this.solde * (tauxInteret / 100);
             this.solde += interet;
             System.out.println("✅ Intérêts appliqués: " + interet + " | Nouveau solde : " + this.solde);
-        } catch (Exception e) {
-            System.out.println("❌ Erreur lors du calcul des intérêts: " + e.getMessage());
-        }
+            return  interet;
     }
 }

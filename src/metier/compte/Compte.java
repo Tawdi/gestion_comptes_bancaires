@@ -21,7 +21,7 @@ public abstract   class Compte {
     }
 
     public abstract boolean retirer(double montant,String destination);
-
+    public abstract double calculerInteret() ;
     public abstract void afficheDetails();
 
     public final void verser(double montant , String source) {
