@@ -74,6 +74,16 @@ public class Menu {
         double montant = Helper.lireDouble("Entrez le montant à retirer : ");
         String destination = Helper.lireString("Entrez le destination de retrait : ");
 
+        if (Helper.confirmer("Voulez-vous retirer " + montant + " du compte " + compte.getCode() +
+                " pour : " + destination + " ?")) {
+            if (compte.retirer(montant, destination)) {
+                System.out.println("✅ Retrait de " + montant + " effectué avec succès du compte " + compte.getCode() + ".");
+            } else {
+                System.out.println("❌ Retrait impossible (solde insuffisant ou autre problème).");
+            }
+        } else {
+            System.out.println("❌ Retrait annulé.");
+        }
         compte.retirer(montant,destination);
     }
 
@@ -117,10 +127,21 @@ public class Menu {
 //        }else{
 //            System.out.println("❌ Virement refusé  !");
 //        }
-        if( banque.virement(source,destination,montant) ){
-            System.out.println("✅ Virement effectué avec succès !");
-        }else{
-            System.out.println("❌ Virement refusé  !");
+
+        if (Helper.confirmer("Voulez-vous effectuer un virement de " + montant +
+                " du compte " + source.getCode() +
+                " vers le compte " + destination.getCode() + " ?")) {
+
+            if (banque.virement(source, destination, montant)) {
+                System.out.println("✅ Virement de " + montant +
+                        " effectué avec succès du compte " + source.getCode() +
+                        " vers le compte " + destination.getCode() + ".");
+            } else {
+                System.out.println("❌ Virement refusé (solde insuffisant ou problème technique).");
+            }
+
+        } else {
+            System.out.println("❌ Virement annulé.");
         }
 
 
@@ -135,7 +156,12 @@ public class Menu {
         double montant = Helper.lireDouble("Entrez le montant à verser : ");
         String source = Helper.lireString("Entrez le source de Versement : ");
 
-        compte.verser(montant,source);
+        if (Helper.confirmer("Voulez-vous continuer le versement de " + montant + " au compte " + compte.getCode() + " ?")) {
+            compte.verser(montant, source);
+        } else {
+            System.out.println("Versement annulé.");
+        }
+
     }
     private void creerCompte() {
         System.out.println("=== Création d'un compte ===");
@@ -174,13 +200,24 @@ public class Menu {
         // courant ou épargne
         if (typeCompte == 1) {
             double decouvert = Helper.lireDouble("Entrez le découvert autorisé : ");
-            banque.ajouterCompte(new CompteCourant(code, solde, decouvert));
-            System.out.println("✅ Compte courant créé avec succès !");
+            if (Helper.confirmer("Voulez-vous créer un compte courant avec le code " + code +
+                    ", solde initial " + solde + " et découvert autorisé " + decouvert + " ?")) {
+                banque.ajouterCompte(new CompteCourant(code, solde, decouvert));
+                System.out.println("✅ Compte courant créé avec succès !");
+            } else {
+                System.out.println("❌ Création du compte courant annulée.");
+            }
         } else {
             double taux = Helper.lireDouble("Entrez le taux d'intérêt (%) : ");
-            banque.ajouterCompte(new CompteEpargne(code, solde, taux));
-            System.out.println("✅ Compte épargne créé avec succès !");
+            if (Helper.confirmer("Voulez-vous créer un compte épargne avec le code " + code +
+                    ", solde initial " + solde + " et taux d'intérêt " + taux + "% ?")) {
+                banque.ajouterCompte(new CompteEpargne(code, solde, taux));
+                System.out.println("✅ Compte épargne créé avec succès !");
+            } else {
+                System.out.println("❌ Création du compte épargne annulée.");
+            }
         }
+
     }
 
     private Compte demanderCompte() {
